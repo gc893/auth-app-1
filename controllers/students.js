@@ -19,10 +19,26 @@ function index(req, res, next) {
     .exec(function (err, students) {
       if (err) return next(err);
       // Passing students and name, for use in the EJS
-      res.render("students/index", { students, name: req.query.name });
+      res.render("students/index", {
+        students,
+        name: req.query.name,
+        user: req.user
+      });
     });
 }
 
-function addFact(req, res, next) {}
+function addFact(req, res, next) {
+  req.user.facts.push(req.body);
+  req.user.save(function (err) {
+    res.redirect("/students");
+  });
+}
 
-function delFact(req, res, next) {}
+function delFact(req, res, next) {
+  Student.findOne({ "facts._id": req.params.id }, function (err, student) {
+    student.facts.id(req.params.id).remove();
+    student.save(function (err) {
+      res.redirect("/students");
+    });
+  });
+}

@@ -8,14 +8,18 @@ const factSchema = new mongoose.Schema({
   timestamps: true
 });
 
-const studentSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  cohort: String,
-  avatar: String,
-  facts: [factSchema]
-}, {
-  timestamps: true
-});
+const studentSchema = new mongoose.Schema(
+  {
+    name: String,
+    email: String,
+    cohort: String,
+    avatar: String,
+    googleId: String,
+    facts: [factSchema],
+  },
+  {
+    timestamps: true,
+  }
+);
 
 module.exports = mongoose.model('Student', studentSchema);
